@@ -1,0 +1,297 @@
+<div class="admin-app">
+    <div class="sidebar-overlay" id="sidebarOverlay" [class.open]="isSidebarOpen" (click)="toggleSidebar()"></div>
+    <aside class="sidebar" [class.open]="isSidebarOpen" [class.collapsed]="isSidebarCollapsed">
+        <div class="brand">SNEAKER</div>
+        <nav class="nav">
+            <button (click)="showView('dashboard')" [class.active]="currentView === 'dashboard'" class="nav-item"><i
+                    class="fa-solid fa-chart-line"></i>
+                Dashboard</button>
+            <button (click)="showView('finance')" [class.active]="currentView === 'finance'" class="nav-item"><i
+                    class="fa-solid fa-wallet"></i> Finance</button>
+            <button (click)="showView('orders')" [class.active]="currentView === 'orders'" class="nav-item"><i
+                    class="fa-solid fa-bag-shopping"></i> Orders</button>
+            <button (click)="showView('products')" [class.active]="currentView === 'products'" class="nav-item"><i
+                    class="fa-solid fa-box-open"></i> Products</button>
+            <button (click)="showView('analytics')" [class.active]="currentView === 'analytics'" class="nav-item"><i
+                    class="fa-solid fa-chart-bar"></i> Analytics</button>
+            <button (click)="showView('customers')" [class.active]="currentView === 'customers'" class="nav-item"><i
+                    class="fa-solid fa-user-group"></i> Customers</button>
+            <button (click)="showView('reports')" [class.active]="currentView === 'reports'" class="nav-item"><i
+                    class="fa-solid fa-file-invoice"></i> Reports</button>
+
+            <div class="nav-divider"></div>
+
+            <button (click)="showView('profile')" [class.active]="currentView === 'profile'" class="nav-item"><i
+                    class="fa-solid fa-gear"></i> Settings</button>
+            <button class="nav-item" id="logoutBtn" routerLink="/login"><i class="fa-solid fa-right-from-bracket"></i>
+                Logout</button>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <header class="topbar">
+            <button id="sidebarToggle" class="btn small sidebar-toggle" (click)="toggleSidebar()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </header>
+
+        <section *ngIf="currentView === 'dashboard'" id="dashboard" class="view active">
+            <h1>Dashboard</h1>
+            <div class="cards">
+                <div class="card">
+                    <div class="label">Total Orders</div>
+                    <div class="value" id="statOrders">{{orders.length}}</div>
+                </div>
+                <div class="card">
+                    <div class="label">Products</div>
+                    <div class="value" id="statProducts">{{products.length}}</div>
+                </div>
+                <div class="card">
+                    <div class="label">Customers</div>
+                    <div class="value" id="statCustomers">{{customers.length}}</div>
+                </div>
+                <div class="card">
+                    <div class="label">Refunds</div>
+                    <div class="value" id="statRefunds">{{refunds.length}}</div>
+                </div>
+            </div>
+            <div class="chart-controls">
+                <label>
+                    Time range
+                    <select [(ngModel)]="dashboardFilters.range" (change)="renderDashboardCharts()">
+                        <option value="7d">Last week</option>
+                        <option value="30d">Last month</option>
+                        <option value="90d">Last quarter</option>
+                        <option value="all">All</option>
+                    </select>
+                </label>
+                <label>
+                    Group by
+                    <select [(ngModel)]="dashboardFilters.group" (change)="renderDashboardCharts()">
+                        <option value="day">Day</option>
+                        <option value="month">Month</option>
+                    </select>
+                </label>
+            </div>
+            <div class="charts" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+
+                <!-- Chart 1: Revenue by day -->
+                <div class="chart-container">
+                    <div class="card" style="padding:12px;">
+                        <h3 style="margin-bottom:8px;">Revenue by day (ETA)</h3>
+                        <canvas id="chartRevenue" height="160"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Order status -->
+                <div class="chart-container">
+                    <div class="card" style="padding:12px;">
+                        <h3 style="margin-bottom:8px;">Order status</h3>
+                        <canvas id="chartStatus" height="160"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 3: Inventory by category (full width) -->
+                <div class="chart-container full-width">
+                    <div class="card" style="padding:12px; grid-column: 1 / -1;">
+                        <h3 style="margin-bottom:8px;">Inventory by category</h3>
+                        <canvas id="chartInventory" height="190"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section *ngIf="currentView === 'finance'" id="finance" class="view">
+            <div class="view-header">
+                <h1>Finance</h1>
+            </div>
+            <div class="placeholder-content">Finance module coming soon.</div>
+        </section>
+
+        <section *ngIf="currentView === 'products'" id="products" class="view">
+            <div class="view-header">
+                <h1>Products</h1>
+                <button class="btn primary" (click)="openProductManageModal()"><i class="fa-solid fa-plus"></i> Add
+                    Product</button>
+            </div>
+            <div class="table-container">
+                <table class="table" id="productsTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let p of products">
+                            <td>{{ p.name }}</td>
+                            <td>{{ p.price | currency }}</td>
+                            <td>{{ p.available ? "In stock" : "Out of stock" }}</td>
+                            <td>
+                                <button class="btn" (click)="openProductModal(p.id)">View</button>
+                                <button class="btn" (click)="openProductManageModal(p)">Edit</button>
+                                <button class="btn" (click)="deleteProduct(p.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section *ngIf="currentView === 'orders'" id="orders" class="view">
+            <div class="view-header">
+                <h1>Orders</h1>
+            </div>
+            <div class="table-container">
+                <table class="table" id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Customer</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>ETA</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let o of orders">
+                            <td>{{ o.id }}</td>
+                            <td>{{ o.customerName }}</td>
+                            <td>{{ o.total | currency }}</td>
+                            <td>{{ o.status }}</td>
+                            <td>{{ o.eta }}</td>
+                            <td>
+                                <button class="btn">Track</button>
+                                <button class="btn">Update Status</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ... Other sections similar logic ... -->
+        <section *ngIf="currentView === 'customers'" id="customers" class="view">
+            <div class="view-header">
+                <h1>Customers</h1>
+                <button class="btn primary" (click)="openCustomerModal()"><i class="fa-solid fa-plus"></i> Add
+                    Customer</button>
+            </div>
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of customers">
+                            <td>{{c.id}}</td>
+                            <td>{{c.name}}</td>
+                            <td>{{c.email}}</td>
+                            <td>{{c.phone}}</td>
+                            <td>
+                                <button class="btn" (click)="openCustomerModal(c)">Manage</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Profile -->
+        <section *ngIf="currentView === 'profile'" id="profile" class="view">
+            <div class="view-header">
+                <h1>Settings</h1>
+            </div>
+            <form class="form">
+                <!-- Form logic omitted for brevity in template, handled in TS if needed -->
+                <p>Settings form placeholder</p>
+            </form>
+        </section>
+
+        <!-- Product Detail Modal -->
+        <div class="modal" *ngIf="showProductModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Product Detail</h3>
+                    <button class="btn small" (click)="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body" *ngIf="selectedProduct">
+                    <div class="grid-2">
+                        <div>
+                            <strong>Brand:</strong> {{selectedProduct.brand}}<br />
+                            <strong>Price:</strong> {{selectedProduct.price | currency}}<br />
+                            <strong>Availability:</strong> {{selectedProduct.available ? "In stock" : "Out of
+                            stock"}}<br />
+                        </div>
+                        <div>
+                            <strong>Specs:</strong> {{selectedProduct.specs}}<br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Manage Modal -->
+        <div class="modal" *ngIf="showProductManageModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>{{ selectedProduct.id ? 'Edit' : 'Add' }} Product</h3>
+                    <button class="btn small" (click)="closeProductManageModal()"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+                    <form class="form" (submit)="saveProduct()">
+                        <div class="grid-2">
+                            <label>Name<input [(ngModel)]="selectedProduct.name" name="name" required /></label>
+                            <label>Brand<input [(ngModel)]="selectedProduct.brand" name="brand" /></label>
+                            <label>Price<input [(ngModel)]="selectedProduct.price" type="number" name="price"
+                                    required /></label>
+                            <label>Available<input [(ngModel)]="selectedProduct.available" type="checkbox"
+                                    name="available" /></label>
+                            <label>Specs<textarea [(ngModel)]="selectedProduct.specs" name="specs"
+                                    rows="3"></textarea></label>
+                        </div>
+                        <div class="actions">
+                            <button class="btn primary" type="submit">Save</button>
+                            <button class="btn danger" type="button" (click)="closeProductManageModal()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer Modal -->
+        <div class="modal" *ngIf="showCustomerModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>{{ selectedCustomer.id ? 'Edit' : 'Add' }} Customer</h3>
+                    <button class="btn small" (click)="closeCustomerModal()"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+                    <form class="form" (submit)="saveCustomer()">
+                        <div class="grid-2">
+                            <label>Name<input [(ngModel)]="selectedCustomer.name" name="name" required /></label>
+                            <label>Email<input [(ngModel)]="selectedCustomer.email" name="email" required /></label>
+                            <label>Phone<input [(ngModel)]="selectedCustomer.phone" name="phone" /></label>
+                        </div>
+                        <div class="actions">
+                            <button class="btn primary" type="submit">Save</button>
+                            <button class="btn danger" type="button" (click)="closeCustomerModal()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
