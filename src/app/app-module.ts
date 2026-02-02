@@ -11,6 +11,8 @@ import { Admin } from './admin/admin';
 import { Checkout } from './checkout/checkout';
 import { About } from './about/about';
 import { Footer } from './footer/footer';
+import { Cart } from './cart/cart';
+import { Contact } from './contact/contact';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { Footer } from './footer/footer';
     Admin,
     Checkout,
     About,
-    Footer
+    Footer,
+    Cart,
+    Contact
   ],
   imports: [
     BrowserModule,
