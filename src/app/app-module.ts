@@ -9,6 +9,10 @@ import { Login } from './login/login';
 import { Register } from './register/register';
 import { Admin } from './admin/admin';
 import { Checkout } from './checkout/checkout';
+import { About } from './about/about';
+import { Footer } from './footer/footer';
+import { Cart } from './cart/cart';
+import { Contact } from './contact/contact';
 
 @NgModule({
   declarations: [
@@ -16,7 +20,11 @@ import { Checkout } from './checkout/checkout';
     Login,
     Register,
     Admin,
-    Checkout
+    Checkout,
+    About,
+    Footer,
+    Cart,
+    Contact
   ],
   imports: [
     BrowserModule,
