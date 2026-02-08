@@ -13,6 +13,7 @@ import { About } from './about/about';
 import { Footer } from './footer/footer';
 import { Cart } from './cart/cart';
 import { Contact } from './contact/contact';
+import { Homepage } from './homepage/homepage';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { Contact } from './contact/contact';
     About,
     Footer,
     Cart,
-    Contact
+    Contact,
+    Homepage
   ],
   imports: [
     BrowserModule,

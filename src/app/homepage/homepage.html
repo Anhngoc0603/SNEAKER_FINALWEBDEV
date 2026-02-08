@@ -1,0 +1,181 @@
+<!-- Header is assumed to be in the app root or a separate component -->
+<!-- <header id="header"></header> -->
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">
+            Step Into
+            <span class="gradient-text">Greatness</span>
+        </h1>
+        <p class="hero-subtitle">
+            Discover premium sneakers crafted for performance, style, and comfort. Elevate your game today.
+        </p>
+        <button class="btn-primary" [routerLink]="['/shop']">
+            Shop Now
+        </button>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <div class="features-grid">
+            <!-- Feature 1: Free Shipping -->
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <img src="assets/images/shipping-fast.png" alt="Free Shipping">
+                </div>
+                <h3 class="feature-title">Free Shipping</h3>
+                <p class="feature-description">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit mattis et pharetra mollis sit aliquam ut
+                    nullam neque ultrices.
+                </p>
+            </div>
+
+            <!-- Feature 2: 24/7 Support -->
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <img src="assets/images/support.png" alt="24/7 Support">
+                </div>
+                <h3 class="feature-title">24/7 Support</h3>
+                <p class="feature-description">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing et nullis et pharetra mollis sit aliquam ut
+                    nullam neque ultrices.
+                </p>
+            </div>
+
+            <!-- Feature 3: Easy Returns -->
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <img src="assets/images/restock.png" alt="Easy Returns">
+                </div>
+                <h3 class="feature-title">Easy Returns</h3>
+                <p class="feature-description">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing et mattis et pharetra mollis sit aliquam ut
+                    nullam neque ultrices.
+                </p>
+            </div>
+
+            <!-- Feature 4: Secure Checkout -->
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <img src="assets/images/shield-keyhole.png" alt="Secure Checkout">
+                </div>
+                <h3 class="feature-title">Secure Checkout</h3>
+                <p class="feature-description">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing et nullis et pharetra mollis sit aliquam ut
+                    nullam neque ultrices as.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Container Hero -->
+<div class="container_hero">
+    <div class="content-wrapper" #contentWrapper>
+        <!-- Left Text -->
+        <div class="left-text">
+            Xprowin<br />XM102
+        </div>
+
+        <!-- Center Product Area -->
+        <div class="center-product">
+            <!-- Sản phẩm chính (phóng to từ giữa) -->
+            <div class="product-element main-product">
+                <img src="https://prowin.com.vn/wp-content/uploads/2024/03/1.png" alt="Sản phẩm">
+            </div>
+
+            <!-- Text overlay (fade in cuối cùng) -->
+            <div class="product-element text-overlay">
+                <img src="https://image.cocoonvietnam.com/uploads/Text_4970fe8fb1.png" alt="Text">
+            </div>
+        </div>
+
+        <!-- Right Description -->
+        <div class="right-description">
+            <h3>
+                Prowin là một trong những doanh nghiệp hàng đầu trong lĩnh vực sản xuất giày đá bóng, giày thể thao,
+                giày cầu lông, giày bảo hộ, dép – xăng đan tại Việt Nam. 18 năm hoạt động, không ngừng đổi mới trong
+                lĩnh vực ngành công nghiệp giày dép Prowin với mong muốn người Việt Nam sử dụng hàng chất lượng Việt Nam
+                đã cho ra đời những sản phẩm giày không chỉ phong phú về mẫu mã mà còn mang tính thời thượng. Đây là
+                minh chứng cho sự sáng tạo và phục vụ cho nhu cầu của khách hàng tại Việt Nam.
+            </h3>
+            <a href="#" class="cta-button" (click)="$event.preventDefault()">
+                <span>Buy Now</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Lastest Products -->
+<section class="lastest-section">
+    <div class="container">
+        <h2 class="lastestsection-title">Lastest Products</h2>
+        <div class="products-grid" id="LastestProducts">
+            <div class="product-card" *ngFor="let product of lastestProducts" [routerLink]="['/product', product.id]">
+                <div class="product-image">
+                    <img [src]="product.images[0]" [alt]="product.name">
+                    <div class="discount-badge" *ngIf="getDiscountPercentage(product.price, product.originalPrice) > 0">
+                        -{{ getDiscountPercentage(product.price, product.originalPrice) }}%
+                    </div>
+                    <button class="add-to-cart-btn" (click)="$event.stopPropagation(); quickAddToCart(product.id)">
+                        Add to Cart
+                    </button>
+                </div>
+                <div class="product-info">
+                    <div class="product-brand">{{ product.brand }}</div>
+                    <div class="product-name">{{ product.name }}</div>
+                    <div class="product-rating">
+                        <span class="stars">
+                            <ng-container *ngFor="let star of generateStarRating(product.rating)">
+                                {{ getStarChar(star) }}
+                            </ng-container>
+                        </span>
+                        <span>{{ product.rating }}</span>
+                        <span style="color: #9ca3af;">({{ product.reviews }})</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price">{{ formatPrice(product.price) }}</span>
+                        <span class="original-price" *ngIf="product.originalPrice > product.price">
+                            {{ formatPrice(product.originalPrice) }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Video Section -->
+<div class="video-box">
+    <!-- Note: Path adjusted to assets/images if you move the video there -->
+    <video src="assets/images/video.mp4" autoplay muted loop></video>
+</div>
+
+<!-- Featured Products -->
+<section class="featured-section">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-header-content">
+                <h2 class="section-title">Featured Products</h2>
+                <p class="section-description">
+                    Lorem ipsum dolor sit amet consectetur adipiscing eli mattis sit phasellus mollis sit aliquam sit
+                    nullam neque ultrices.
+                </p>
+            </div>
+            <button class="btn-secondary">See All</button>
+        </div>
+        <div class="products-grid" id="featuredProducts">
+            <div class="product-card" *ngFor="let product of featuredProducts" [routerLink]="['/product', product.id]">
+                <div class="product-image">
+                    <img [src]="product.images[0]" [alt]="product.name">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer is assumed to be in the app root or a separate component -->
+<!-- <footer id="footer" class="footer"></footer> -->
