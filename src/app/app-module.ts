@@ -1,7 +1,7 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common'; // Added for *ngIf/ngFor
-import { FormsModule } from '@angular/forms'; // Added for ngModel
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Added for ngModel
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
@@ -14,6 +14,8 @@ import { Footer } from './footer/footer';
 import { Cart } from './cart/cart';
 import { Contact } from './contact/contact';
 import { Homepage } from './homepage/homepage';
+import { Header } from './header/header';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -26,13 +28,16 @@ import { Homepage } from './homepage/homepage';
     Footer,
     Cart,
     Contact,
-    Homepage
+    Homepage,
+    Header
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners()

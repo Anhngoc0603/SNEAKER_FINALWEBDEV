@@ -1,8 +1,15 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Product, PRODUCTS } from '../data/products';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { Header } from '../header/header';
+import { Footer } from '../footer/footer';
+import { Cart } from '../../services/cart';
 
 @Component({
   selector: 'app-homepage',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, RouterModule, Header, Footer],
   templateUrl: './homepage.html',
   styleUrl: './homepage.css',
 })
@@ -12,7 +19,7 @@ export class Homepage {
 
     @ViewChild('contentWrapper') contentWrapper!: ElementRef;
 
-    constructor() { }
+    constructor(private cartService: Cart) { }
 
     ngOnInit(): void {
         // Logic from main.js: renderLastestProducts (slice 0-4)
