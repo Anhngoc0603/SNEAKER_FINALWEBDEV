@@ -1,17 +1,13 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Product, PRODUCTS } from '../data/products';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { Header } from '../header/header';
-import { Footer } from '../footer/footer';
+
 import { Cart } from '../../services/cart';
 
 @Component({
-  selector: 'app-homepage',
-  standalone: true,
-  imports: [CommonModule, RouterModule, Header, Footer],
-  templateUrl: './homepage.html',
-  styleUrl: './homepage.css',
+    selector: 'app-homepage',
+    standalone: false,
+    templateUrl: './homepage.html',
+    styleUrl: './homepage.css',
 })
 export class Homepage {
     lastestProducts: Product[] = [];

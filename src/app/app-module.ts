@@ -11,7 +11,7 @@ import { Admin } from './admin/admin';
 import { Checkout } from './checkout/checkout';
 import { About } from './about/about';
 import { Footer } from './footer/footer';
-import { Cart } from './cart/cart';
+import { CartComponent } from './cart/cart';
 import { Contact } from './contact/contact';
 import { Homepage } from './homepage/homepage';
 import { Header } from './header/header';
@@ -26,9 +26,10 @@ import { HttpClientModule } from '@angular/common/http';
     Checkout,
     About,
     Footer,
-    Cart,
-    Contact,
+    CartComponent,
     Homepage,
+    Contact,
+
     Header
   ],
   imports: [
