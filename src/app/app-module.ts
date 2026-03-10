@@ -11,7 +11,7 @@ import { Admin } from './admin/admin';
 import { Checkout } from './checkout/checkout';
 import { About } from './about/about';
 import { Footer } from './footer/footer';
-import { CartComponent } from './cart/cart';
+import { Cart } from './cart/cart';
 import { Contact } from './contact/contact';
 import { Homepage } from './homepage/homepage';
 import { Header } from './header/header';
